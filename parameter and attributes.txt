@@ -1,0 +1,134 @@
+1. index.jsp:
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="S1">
+	Number 1 : <input type="number" name="num1"><br>
+	Number 2 : <input type="number" name="num2"><br>
+	<input type="submit" value="Get Info">
+</form>
+</body>
+</html>
+
+
+2. S1.java:
+
+package com.servlet.controller;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import org.apache.jasper.compiler.Node.ForwardAction;
+
+/**
+ * Servlet implementation class S1
+ */
+@WebServlet("/S1")
+public class S1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public S1() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int num1 = Integer.parseInt(request.getParameter("num1")) ;
+		int num2 = Integer.parseInt(request.getParameter("num2")) ;
+		
+		int sum = num1 + num2;
+		request.setAttribute("sum", sum);
+		
+		request.getRequestDispatcher("S2").forward(request, response);
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+3. S2.java:
+
+
+package com.servlet.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class S2
+ */
+@WebServlet("/S2")
+public class S2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public S2() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		int num1  = Integer.parseInt(request.getParameter("num1"));
+		int num2  = Integer.parseInt(request.getParameter("num2"));
+		int product =  num1* num2;
+		int sum = (int) request.getAttribute("sum");
+		PrintWriter out = response.getWriter();
+		out.print("<h2>");
+		out.print("Product of two number "+product);
+		out.print("Sum of two number"+sum);
+		out.print("</h2>");
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
